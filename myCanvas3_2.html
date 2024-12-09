@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>프랙탈 만들기</title>
+</head>
+<body>
+    <canvas id="myCanvas3" width="800" height="600" style="border: 2px solid #cef"></canvas>
+    <script>
+        const canvas = document.getElementById("myCanvas3");
+        const ctx = canvas.getContext("2d");
+
+        const startX = canvas.width / 2;
+        const startY = canvas.height;
+        const total = 10;
+        const step = 0;
+
+        function drawFractal(x, y, size, angle, depth) {
+            if (depth === 0) {
+                return;
+            }
+
+            const x1 = x + size * Math.cos(angle);
+            const y1 = y + size * Math.sin(angle);
+
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x1, y1);
+            ctx.strokeStyle = `rgba(0, ${depth * 10}, 0, ${depth / total})`;
+            ctx.lineWidth = depth / 5;
+            ctx.stroke();
+
+            drawFractal(x1, y1, size * 0.75, angle - Math.PI / 6, depth - 1);
+            drawFractal(x1, y1, size * 0.75, angle + Math.PI / 6, depth - 1);
+        }
+
+        drawFractal(startX, startY, 125, -Math.PI / 2, total);
+    </script>
+</body>
+</html>
